@@ -1,0 +1,16 @@
+target/
+.classpath
+.project
+.settings/
+.vscode/
+*.iml
+.idea/
+
+# Local SQLite data
+/data/
+*.db
+*.db-shm
+*.db-wal
+
+# Local environment files
+.env
