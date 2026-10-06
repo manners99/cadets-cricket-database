@@ -1,6 +1,7 @@
 CREATE TABLE Player (
     player_id INTEGER PRIMARY KEY AUTOINCREMENT,
     first_name TEXT,
+    gender TEXT,
     surname TEXT NOT NULL,
     initial TEXT NOT NULL
 );
@@ -80,8 +81,8 @@ CREATE TABLE Competition (
     competition_name TEXT NOT NULL
 );
 
-CREATE TABLE batting_performance (
-    batting_performance_id INTEGER PRIMARY KEY AUTOINCREMENT,
+CREATE TABLE Batting (
+    battingid INTEGER PRIMARY KEY AUTOINCREMENT,
 
     innings_id INTEGER NOT NULL,
     player_id INTEGER NOT NULL,
@@ -107,8 +108,8 @@ CREATE TABLE batting_performance (
 );
 
 
-CREATE TABLE Bowling_Performance (
-    bowling_performance_id INTEGER PRIMARY KEY AUTOINCREMENT,
+CREATE TABLE Bowling (
+    bowling_id INTEGER PRIMARY KEY AUTOINCREMENT,
     player_id INTEGER NOT NULL,
     innings_id INTEGER NOT NULL,
     overs REAL,
@@ -128,8 +129,8 @@ CREATE TABLE Bowling_Performance (
     UNIQUE (innings_id, player_id)
 );
 
-CREATE TABLE Fielding_Performance (
-    fielding_performance_id INTEGER PRIMARY KEY AUTOINCREMENT,
+CREATE TABLE Fielding (
+    fielding_id INTEGER PRIMARY KEY AUTOINCREMENT,
     player_id INTEGER NOT NULL,
     innings_id INTEGER NOT NULL,
     catches INTEGER,
