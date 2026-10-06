@@ -1,6 +1,6 @@
 CREATE TABLE Player (
     player_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    first_name TEXT,
+    first_name TEXT NOT NULL,
     gender TEXT,
     surname TEXT,
     initial TEXT NOT NULL
