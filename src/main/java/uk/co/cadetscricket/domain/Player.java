@@ -1,6 +1,7 @@
 package uk.co.cadetscricket.domain;
 
 import jakarta.persistence.*;
+import uk.co.cadetscricket.common.Gender;
 
 /**
  * Entity representing a player in cadets cricket club, Teams will have multple players and players can be in multiple teams.
@@ -9,7 +10,7 @@ import jakarta.persistence.*;
 @Entity
 public class Player {
     @Id
-    @generatedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long playerId;
     private String firstName;
     private String surname;
@@ -65,6 +66,15 @@ public class Player {
 
     public void setGender(Gender gender) {
         this.gender = gender;
+    }
+
+    @Transient
+    public String getDisplayName() {
+        if (surname == null || surname.isBlank()) {
+            return firstName + (initial == null || initial.isBlank() ? "" : " " + initial);
+        }
+
+        return firstName + " " + surname;
     }
 
 }

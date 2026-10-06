@@ -2,7 +2,7 @@ CREATE TABLE Player (
     player_id INTEGER PRIMARY KEY AUTOINCREMENT,
     first_name TEXT,
     gender TEXT,
-    surname TEXT NOT NULL,
+    surname TEXT,
     initial TEXT NOT NULL
 );
 
