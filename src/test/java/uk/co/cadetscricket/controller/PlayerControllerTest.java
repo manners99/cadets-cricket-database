@@ -31,6 +31,14 @@ class PlayerControllerTest {
         mockMvc = MockMvcBuilders.standaloneSetup(new PlayerController(playerService)).build();
     }
 
+    /**
+     * Test to verify that the getAllPlayers endpoint returns a list of players.
+     * This test mocks the PlayerService to return a predefined list of players and checks that the
+     * response from the controller matches the expected output.
+     * 
+     * This does not test the actual service layer or database interactions, but rather focuses on the controller's behavior.
+     * @throws Exception
+     */
     @Test
     void getAllPlayersReturnsPlayers() throws Exception {
         when(playerService.getAllPlayers()).thenReturn(List.of(player("John", "Smith", "J")));
@@ -41,6 +49,16 @@ class PlayerControllerTest {
                 .andExpect(jsonPath("$[0].displayName").value("John Smith"));
     }
 
+    /**
+     * Test to verify that the getPlayerById endpoint correctly delegates to the PlayerService.
+     * This test mocks the PlayerService to return a specific player when queried by ID and checks 
+     * that the controller returns the expected JSON response.
+     * It also verifies that the service method was called with the correct parameter.
+     * 
+     * This test does not cover the actual service logic or database interactions, 
+     * but rather focuses on the controller's behavior and its interaction with the service layer.
+     * @throws Exception
+     */
     @Test
     void getPlayerByIdDelegatesToService() throws Exception {
         when(playerService.getPlayerById(1L)).thenReturn(player("John", null, "M"));
@@ -52,6 +70,15 @@ class PlayerControllerTest {
         verify(playerService).getPlayerById(1L);
     }
 
+    /**
+     * Test to verify that the createPlayer endpoint accepts JSON input and correctly delegates to the PlayerService.
+     * This test mocks the PlayerService to return a specific player when a new player is created
+     * and checks that the controller returns the expected JSON response.
+     * 
+     * This test does not cover the actual service logic or database interactions, 
+     * but rather focuses on the controller's behavior and its interaction with the service layer.
+     * @throws Exception
+     */
     @Test
     void createPlayerAcceptsJson() throws Exception {
         Player player = player("John", null, "M");
@@ -72,6 +99,15 @@ class PlayerControllerTest {
         verify(playerService).createPlayer(any(Player.class));
     }
 
+
+    /**
+     * Test to verify that the searchSuggestions endpoint correctly delegates to the PlayerService and returns the expected results.
+     * This test mocks the PlayerService to return a list of players matching a search query and checks that the controller returns the expected JSON response.
+     * 
+     * This test does not cover the actual service logic or database interactions, 
+     * but rather focuses on the controller's behavior and its interaction with the service layer.
+     * @throws Exception
+     */
     @Test
     void searchSuggestionsPassesQueryToService() throws Exception {
         when(playerService.searchPlayersBySubstring("jo"))
@@ -85,6 +121,16 @@ class PlayerControllerTest {
         verify(playerService).searchPlayersBySubstring("jo");
     }
 
+
+    /**
+     * Test to verify that the deletePlayer endpoint correctly delegates to the PlayerService.
+     * This test mocks the PlayerService to ensure that when a delete request is made to the controller, 
+     * the service's deletePlayer method is called with the correct player ID.
+     * 
+     * This test does not cover the actual service logic or database interactions, 
+     * but rather focuses on the controller's behavior and its interaction with the service layer.
+     * @throws Exception
+     */
     @Test
     void deletePlayerDelegatesToService() throws Exception {
         mockMvc.perform(delete("/api/players/1"))
