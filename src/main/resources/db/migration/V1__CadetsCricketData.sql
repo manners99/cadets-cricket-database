@@ -1,5 +1,5 @@
 CREATE TABLE player (
-    player_id BIGINT PRIMARY KEY,
+    player_id INTEGER PRIMARY KEY AUTOINCREMENT,
     first_name TEXT NOT NULL,
     gender TEXT,
     surname TEXT,
@@ -7,15 +7,15 @@ CREATE TABLE player (
 );
 
 CREATE TABLE team (
-    team_id BIGINT PRIMARY KEY,
+    team_id INTEGER PRIMARY KEY AUTOINCREMENT,
     team_name TEXT,
     club TEXT NOT NULL
 );
 
 CREATE TABLE player_team (
-    player_id BIGINT NOT NULL,
-    team_id BIGINT NOT NULL,
-    season_id BIGINT NOT NULL,
+    player_id INTEGER NOT NULL,
+    team_id INTEGER NOT NULL,
+    season_id INTEGER NOT NULL,
 
     Primary Key (player_id, team_id, season_id),
     Foreign Key (player_id) REFERENCES Player(player_id),
@@ -24,15 +24,15 @@ CREATE TABLE player_team (
 );
 
 CREATE TABLE match (
-    match_id BIGINT PRIMARY KEY,
+    match_id INTEGER PRIMARY KEY AUTOINCREMENT,
     start_date TEXT NOT NULL,
     end_date TEXT NOT NULL,
-    team_id BIGINT NOT NULL,
-    opponent_team_id BIGINT NOT NULL,
+    team_id INTEGER NOT NULL,
+    opponent_team_id INTEGER NOT NULL,
     match_format TEXT NOT NULL,
     match_status TEXT,
-    competition_id BIGINT NOT NULL,
-    season_id BIGINT NOT NULL,
+    competition_id INTEGER NOT NULL,
+    season_id INTEGER NOT NULL,
     result TEXT,
     notes TEXT,
 
@@ -43,10 +43,10 @@ CREATE TABLE match (
 );
 
 CREATE TABLE innings (
-    innings_id BIGINT PRIMARY KEY,
+    innings_id INTEGER PRIMARY KEY AUTOINCREMENT,
 
-    match_id BIGINT NOT NULL,
-    team_id BIGINT NOT NULL,
+    match_id INTEGER NOT NULL,
+    team_id INTEGER NOT NULL,
 
     innings_number INTEGER NOT NULL,
 
@@ -69,7 +69,7 @@ CREATE TABLE innings (
 
 
 CREATE TABLE season (
-    season_id BIGINT PRIMARY KEY,
+    season_id INTEGER PRIMARY KEY AUTOINCREMENT,
     start_year INTEGER NOT NULL,
     end_year INTEGER NOT NULL,
 
@@ -77,15 +77,15 @@ CREATE TABLE season (
 );
 
 CREATE TABLE competition (
-    competition_id BIGINT PRIMARY KEY,
+    competition_id INTEGER PRIMARY KEY AUTOINCREMENT,
     competition_name TEXT NOT NULL
 );
 
 CREATE TABLE batting (
-    battingid BIGINT PRIMARY KEY,
+    battingid INTEGER PRIMARY KEY AUTOINCREMENT,
 
-    innings_id BIGINT NOT NULL,
-    player_id BIGINT NOT NULL,
+innings_id INTEGER NOT NULL,
+    player_id INTEGER NOT NULL,
 
     batting_position INTEGER,
     runs INTEGER NOT NULL DEFAULT 0,
@@ -109,9 +109,9 @@ CREATE TABLE batting (
 
 
 CREATE TABLE bowling (
-    bowling_id BIGINT PRIMARY KEY,
-    player_id BIGINT NOT NULL,
-    innings_id BIGINT NOT NULL,
+    bowling_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    player_id INTEGER NOT NULL,
+    innings_id INTEGER NOT NULL,
     overs REAL,
     maidens INTEGER,
     runs_conceded INTEGER,
@@ -130,9 +130,9 @@ CREATE TABLE bowling (
 );
 
 CREATE TABLE fielding (
-    fielding_id BIGINT PRIMARY KEY,
-    player_id BIGINT NOT NULL,
-    innings_id BIGINT NOT NULL,
+    fielding_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    player_id INTEGER NOT NULL,
+    innings_id INTEGER NOT NULL,
     catches INTEGER,
     stumpings INTEGER,
     run_outs INTEGER,

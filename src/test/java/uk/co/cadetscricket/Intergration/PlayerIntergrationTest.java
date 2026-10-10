@@ -1,6 +1,7 @@
 package uk.co.cadetscricket.Intergration;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -30,14 +31,14 @@ public class PlayerIntergrationTest {
     private Player john;
     private Player jane;
 
+    @BeforeEach
+    void setUp() {
+        playerRepository.deleteAll();
+    }
+
     @AfterEach
     void tearDown() {
-        if (john != null && john.getPlayerId() != null) {
-            playerRepository.deleteById(john.getPlayerId());
-        }
-        if (jane != null && jane.getPlayerId() != null) {
-            playerRepository.deleteById(jane.getPlayerId());
-        }
+        playerRepository.deleteAll();
     }
 
     @Test

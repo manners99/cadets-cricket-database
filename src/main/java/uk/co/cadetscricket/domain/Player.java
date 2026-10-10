@@ -11,6 +11,7 @@ import uk.co.cadetscricket.common.Gender;
 public class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "INTEGER")
     private Long playerId;
     private String firstName;
     private String surname;
