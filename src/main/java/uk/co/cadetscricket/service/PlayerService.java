@@ -47,7 +47,7 @@ public class PlayerService {
      * @return the created player
      */
     public Player createPlayer(Player player) {
-        return playerRepository.save(player);
+        return playerRepository.saveAndFlush(player);
     }
 
     /**

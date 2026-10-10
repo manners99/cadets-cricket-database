@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.hamcrest.Matchers.containsInAnyOrder;
@@ -48,6 +49,26 @@ public class PlayerIntergrationTest {
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[*].firstName", containsInAnyOrder("John", "Jane")))
         .andExpect(jsonPath("$[*].surname", containsInAnyOrder("Doe", "")))
-        .andExpect(jsonPath("$[*].initials", containsInAnyOrder("D", "S")));
+        .andExpect(jsonPath("$[*].initial", containsInAnyOrder("D", "S")));
+    }
+
+    @Test
+    void createPlayerReturnsCreatedPlayer() throws Exception {
+        mockMvc.perform(post("/api/players")
+                .contentType("application/json")
+                .content("""
+                        {
+                          "firstName": "Chris",
+                          "surname": "Cairns",
+                          "initial": "C",
+                          "gender": "MALE"
+                        }
+                        """))
+                .andDo(result -> System.out.println(
+                        "Created player JSON: " + result.getResponse().getContentAsString()))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.playerId").isNumber())
+                .andExpect(jsonPath("$.firstName").value("Chris"))
+                .andExpect(jsonPath("$.initial").value("C"));
     }
 }

@@ -55,10 +55,10 @@ class PlayerServiceTest {
     @Test
     void createPlayerSavesPlayer() {
         Player player = player("John", "Smith", "J");
-        when(playerRepository.save(player)).thenReturn(player);
+        when(playerRepository.saveAndFlush(player)).thenReturn(player);
 
         assertSame(player, playerService.createPlayer(player));
-        verify(playerRepository).save(player);
+        verify(playerRepository).saveAndFlush(player);
     }
 
     @Test

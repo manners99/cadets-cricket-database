@@ -6,6 +6,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.http.MediaType;
+import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import uk.co.cadetscricket.common.Gender;
@@ -93,10 +94,28 @@ class PlayerControllerTest {
                                   "gender": "OTHER"
                                 }
                                 """))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.displayName").value("John M"));
 
         verify(playerService).createPlayer(any(Player.class));
+    }
+
+    @Test
+    void createPlayerReturnsFailureWhenSaveFails() throws Exception {
+        when(playerService.createPlayer(any(Player.class)))
+                .thenThrow(new DataAccessResourceFailureException("database unavailable"));
+
+        mockMvc.perform(post("/api/players")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "firstName": "John",
+                                  "initial": "M",
+                                  "gender": "OTHER"
+                                }
+                                """))
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.error").value("The player could not be created."));
     }
 
 

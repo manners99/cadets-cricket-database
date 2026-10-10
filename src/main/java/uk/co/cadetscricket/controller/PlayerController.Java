@@ -9,14 +9,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.co.cadetscricket.domain.Player;
 import uk.co.cadetscricket.service.PlayerService;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/players")
 public class PlayerController {
+
+    private static final Logger logger = LoggerFactory.getLogger(PlayerController.class);
     
     private final PlayerService playerService;
 
@@ -35,8 +43,21 @@ public class PlayerController {
     }
 
     @PostMapping
-    public Player createPlayer(@RequestBody Player player) {
-        return playerService.createPlayer(player);
+    public ResponseEntity<?> createPlayer(@RequestBody Player player) {
+        try {
+            Player createdPlayer = playerService.createPlayer(player);
+            logger.info("Created player: id={}, firstName={}, surname={}, initial={}, gender={}",
+                    createdPlayer.getPlayerId(),
+                    createdPlayer.getFirstName(),
+                    createdPlayer.getSurname(),
+                    createdPlayer.getInitial(),
+                    createdPlayer.getGender());
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdPlayer);
+        } catch (DataAccessException exception) {
+            logger.error("Could not create player", exception);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "The player could not be created."));
+        }
     }
 
     @PutMapping("/{id}")
